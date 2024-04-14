@@ -68,7 +68,7 @@ export default function SectionTechnologyStack() {
         <section ref={ref} className={`safe-x-padding ${styles.sectionDistance}`}>
             <div className='text-center'>
                 <motion.h2 initial={{ y: 100, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.5 }} className={`${styles.sectionTitle} pb-8`}>Technology Stack</motion.h2>
-                <motion.p initial={{ y: 100, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.7 }} className={`${styles.sectionDescription}  max-w-[960px] mx-auto`}>I am concerned about Design and performance for my client. That&apos;s why I always keep updating and use best technologies in a product</motion.p>
+                <motion.p initial={{ y: 100, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.7 }} className={`${styles.sectionDescription}  max-w-[960px] mx-auto`}>I am concerned about Design and performance for my client. That&apos;s why I always keep updating and use best technologies in a Product</motion.p>
             </div>
             <div className='flex items-center justify-center mt-12'>
                 <div className='flex flex-row gap-[50px] max-w-[864px] flex-wrap justify-center items-center'>
