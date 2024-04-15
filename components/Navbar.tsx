@@ -135,11 +135,11 @@ export default function Navbar(): JSX.Element {
                                 </Link>
                             </li>
                         ))}
-                        <li className="flex text-white rounded-lg gradient-bg">
+                        {/* <li className="flex text-white rounded-lg gradient-bg">
                             <a
                                 href="/"
                                 className="flex-1 py-4 safe-x-padding"
-                                download="Deri Kurniawan Resume"
+                                download="Download Resume"
                             >
                                 <div className="flex items-center justify-between">
                                     <span className='text-2xl font-semibold'>Resume</span>
@@ -148,7 +148,7 @@ export default function Navbar(): JSX.Element {
                                     </span>
                                 </div>
                             </a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>
