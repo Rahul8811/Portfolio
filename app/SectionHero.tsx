@@ -71,7 +71,7 @@ export default function SectionHero(): JSX.Element {
                 <div className='flex flex-col items-center justify-center order-2 xl:items-start xl:order-1'>
                     <motion.p
                         className='font-montserrat font-bold text-2xl md:text-[28px] lg:text-[32px] text-accent mb-3 text-center xl:text-left'
-                        aria-label="Welcome to Deri's Portfolio"
+                        aria-label="Welcome to Rahul's Portfolio"
                     >
                         Welcome to Rahul&apos;s Portfolio
                     </motion.p>

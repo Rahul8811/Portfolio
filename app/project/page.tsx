@@ -80,12 +80,48 @@ const initialProjects = [
         category: categories[0]
     },
     {
-        slug: 'Duniya-Ui/ux',
-        title: 'Duniya',
-        image: assets.home.myLatestProject.projects.xr_3d,
-        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Untitled?type=design&node-id=0-1&mode=design&t=mYD7LqRpvJOECQli-0",
-        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Untitled?type=design&node-id=0-1&mode=design&t=mYD7LqRpvJOECQli-0",
-        summary: 'XR interface design in Figma: Immersive, intuitive, and visually captivating; blending virtual and real-world experiences seamlessly for users',
+        slug: 'Ice cream',
+        title: 'Ice Cream Parlour',
+        image: assets.home.myLatestProject.projects.ice,
+        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=74%3A60&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=74%3A60&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        summary: 'Ice Cream Parlour design in Figma: Immersive, intuitive, and visually captivating.',
+        techStacks: [
+            {
+                name: 'Figma',
+                imageUrl: 'https://img.icons8.com/color/48/figma--v1.png',
+                webUrl: 'https://www.figma.com/'
+            },
+        
+        ],
+        projectType: projectTypes[0],
+        category: categories[1]
+    },
+    {
+        slug: 'Food Stall',
+        title: 'Food Stall',
+        image: assets.home.myLatestProject.projects.food,
+        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=272%3A127&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=272%3A127&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        summary: 'Food Stall design in Figma: Immersive, intuitive, and visually captivating.',
+        techStacks: [
+            {
+                name: 'Figma',
+                imageUrl: 'https://img.icons8.com/color/48/figma--v1.png',
+                webUrl: 'https://www.figma.com/'
+            },
+        
+        ],
+        projectType: projectTypes[0],
+        category: categories[1]
+    },
+    {
+        slug: 'Cultures',
+        title: 'Colors Of India',
+        image: assets.home.myLatestProject.projects.trad,
+        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        summary: 'Indian Culture design in Figma: Immersive, intuitive, and visually captivating, page dedicated to the culture and traditional of India',
         techStacks: [
             {
                 name: 'Figma',

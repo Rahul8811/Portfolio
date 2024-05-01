@@ -98,7 +98,7 @@ export default function Navbar(): JSX.Element {
                             ))}
 
                         </ul>
-                        {/* <a className='px-6 py-2 text-white gradient-btn rounded-xl' href="/" download="Rahul Sharma Resume">Resume</a> */}
+                        <a className='px-6 py-2 text-white gradient-btn rounded-xl' href="https://drive.google.com/file/d/1uFnwk-ZSJZj_3FS8zxt1nffEeXV_8LBP/view?usp=drive_link" download="Rahul Sharma Resume">Resume</a>
                     </div>
                     {/* mobile hamburger menu */}
                     <div className="z-50 md:hidden">
@@ -135,9 +135,9 @@ export default function Navbar(): JSX.Element {
                                 </Link>
                             </li>
                         ))}
-                        {/* <li className="flex text-white rounded-lg gradient-bg">
+                        <li className="flex text-white rounded-lg gradient-bg">
                             <a
-                                href="/"
+                                href="https://drive.google.com/file/d/1uFnwk-ZSJZj_3FS8zxt1nffEeXV_8LBP/view?usp=drive_link"
                                 className="flex-1 py-4 safe-x-padding"
                                 download="Download Resume"
                             >
@@ -148,7 +148,7 @@ export default function Navbar(): JSX.Element {
                                     </span>
                                 </div>
                             </a>
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
             </div>
