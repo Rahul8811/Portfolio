@@ -33,6 +33,13 @@ export const tabs = [
                 repositoryUrl: "https://github.com/Rahul8811/Endless-Runner",
                 demoUrl: "https://rahul90.itch.io/the-endless-road",
             },
+            {
+                slug: 'Open-World-gym',
+                title: 'Open World Gym - Seige',
+                image: assets.home.myLatestProject.projects.traffic,
+                repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
+                demoUrl: "https://rahul90.itch.io/open-world-gym",
+            },
        
         ]
     },

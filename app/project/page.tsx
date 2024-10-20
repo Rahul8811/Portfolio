@@ -12,22 +12,22 @@ import { FaGithub } from "react-icons/fa";
 
 const categories = [
     {
-        slug: 'app',
+        slug: 'app',// in cat. 0
         name: 'App',
     },
     {
-        slug: 'design',
+        slug: 'design', //in catergory 1
         name: 'Design',
     }
 ];
 
 const projectTypes = [
     {
-        slug: 'design',
+        slug: 'design',// in project type 0
         name: 'Design',
     },
     {
-        slug: 'real-project',
+        slug: 'real-project',// in pt type 1
         name: 'Real Project',
     }
 ]
@@ -62,7 +62,7 @@ const initialProjects = [
                 image: assets.home.myLatestProject.projects.runner,
                 repositoryUrl: "https://github.com/Rahul8811/Endless-Runner",
                 demoUrl: "https://rahul90.itch.io/the-endless-road",
-        summary: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
+        summary: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',//change
         techStacks: [
             {
                 name: 'Unreal Engine',
@@ -119,6 +119,24 @@ const initialProjects = [
         slug: 'Cultures',
         title: 'Colors Of India',
         image: assets.home.myLatestProject.projects.trad,
+        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
+        summary: 'Indian Culture design in Figma: Immersive, intuitive, and visually captivating, page dedicated to the culture and traditional of India',
+        techStacks: [
+            {
+                name: 'Figma',
+                imageUrl: 'https://img.icons8.com/color/48/figma--v1.png',
+                webUrl: 'https://www.figma.com/'
+            },
+        
+        ],
+        projectType: projectTypes[0],
+        category: categories[1]
+    },
+    {
+        slug: 'Cultures',
+        title: 'Colors Of India',
+        image: assets.home.myLatestProject.projects.traffic,
         repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
         demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
         summary: 'Indian Culture design in Figma: Immersive, intuitive, and visually captivating, page dedicated to the culture and traditional of India',

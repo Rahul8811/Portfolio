@@ -29,6 +29,7 @@ export const assets = {
         ice: require("@images/home/myLatestProject/projects/ice.png"),
         food: require("@images/home/myLatestProject/projects/food.png"),
         trad: require("@images/home/myLatestProject/projects/aRT OF iNDIA.png"),
+        traffic: require("@images/home/myLatestProject/projects/1.png"),
 
       },
     },
