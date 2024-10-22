@@ -34,11 +34,18 @@ export const tabs = [
                 demoUrl: "https://rahul90.itch.io/the-endless-road",
             },
             {
-                slug: 'Open-World-gym',
-                title: 'Open World Gym - Seige',
-                image: assets.home.myLatestProject.projects.traffic,
+                slug: 'Drone-fight',
+                title: 'Drone_fight',
+                image: assets.home.myLatestProject.projects.bot,
                 repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
-                demoUrl: "https://rahul90.itch.io/open-world-gym",
+                demoUrl: "https://rahul90.itch.io/drone-fight",
+            },
+            {
+                slug: 'Time-race',
+                title: 'Time-Race',
+                image: assets.home.myLatestProject.projects.car,
+                repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
+                demoUrl: "https://rahul90.itch.io/race-against-time",
             },
        
         ]

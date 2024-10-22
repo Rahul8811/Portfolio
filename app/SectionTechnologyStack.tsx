@@ -21,8 +21,8 @@ const technologyStack = [
         officialSite: 'https://cplusplus.com/',
     },
     {
-        name: '3dsMax',
-        image: assets.home.technologyStack.threedsMax,
+        name: 'Blender',
+        image: assets.home.technologyStack.blender,
         officialSite: 'https://www.autodesk.in/products/3ds-max/overview?term=1-YEAR&tab=subscription',
     },
     {
@@ -93,7 +93,7 @@ export default function SectionTechnologyStack() {
                                     href={{
                                         pathname: item.officialSite,
                                         query: {
-                                            utm_source: 'deri.my.id',
+                                            utm_source: 'rahul.my.id',
                                             utm_medium: 'campaign',
                                             utm_campaign: 'portfolio'
                                         }

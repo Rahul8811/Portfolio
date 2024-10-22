@@ -35,11 +35,11 @@ const projectTypes = [
 const initialProjects = [
     {
         slug: 'Open-World-gym',
-        title: 'Open World Gym - Seige',
-        image: assets.home.myLatestProject.projects.gym,
-        repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
-        demoUrl: "https://rahul90.itch.io/open-world-gym",
-        summary: '"Explore a vast, dynamic gym environment in Unreal Engine, offering diverse workouts interactive fitness equipment."',
+        title: 'Drone-Fight',
+        image: assets.home.myLatestProject.projects.bot,
+        repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym", 
+        demoUrl: "https://rahul90.itch.io/drone-fight",
+        summary: '"Optimized Unreal Engine project with streamlined blueprints for precise line tracing and hit detection. Efficient, modular, and performance-focused"',
         techStacks: [
             {
                 name: 'Unreal Engine',
@@ -134,22 +134,50 @@ const initialProjects = [
         category: categories[1]
     },
     {
-        slug: 'Cultures',
-        title: 'Colors Of India',
-        image: assets.home.myLatestProject.projects.traffic,
-        repositoryUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
-        demoUrl: "https://www.figma.com/file/0BcYD3tqZV1CmLeeiVZHb5/Projects?type=design&node-id=195%3A34&mode=design&t=bIsjvKDgYLFLmFbY-1",
-        summary: 'Indian Culture design in Figma: Immersive, intuitive, and visually captivating, page dedicated to the culture and traditional of India',
+        slug: 'Drone_fight',
+        title: 'Drone-Fight',
+        image: assets.home.myLatestProject.projects.gym,
+        repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
+        demoUrl: "https://rahul90.itch.io/open-world-gym",
+        summary: '"Explore a vast, dynamic gym environment in Unreal Engine, offering diverse workouts interactive fitness equipment."',
         techStacks: [
             {
-                name: 'Figma',
-                imageUrl: 'https://img.icons8.com/color/48/figma--v1.png',
-                webUrl: 'https://www.figma.com/'
+                name: 'Unreal Engine',
+                imageUrl: 'https://img.icons8.com/ios-filled/50/unreal-engine.png',
+                webUrl: 'https://nextjs.org/'
             },
-        
+            {
+                name: 'Blender',
+                imageUrl: 'https://img.icons8.com/color/48/3ds-max.png',
+                webUrl: 'https://www.autodesk.in/products/3ds-max/overview?term=1-YEAR&tab=subscription'
+            },
+          
         ],
-        projectType: projectTypes[0],
-        category: categories[1]
+        projectType: projectTypes[1],
+        category: categories[0]
+    },
+    {
+        slug: 'Time-Race',
+        title: 'Race-against-time',
+        image: assets.home.myLatestProject.projects.car,
+        repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
+        demoUrl: "https://rahul90.itch.io/race-against-time",
+        summary: '"Explore a vast, dynamic gym environment in Unreal Engine, offering diverse workouts interactive fitness equipment."',
+        techStacks: [
+            {
+                name: 'Unreal Engine',
+                imageUrl: 'https://img.icons8.com/ios-filled/50/unreal-engine.png',
+                webUrl: 'https://nextjs.org/'
+            },
+            {
+                name: '3d-max',
+                imageUrl: 'https://img.icons8.com/color/48/3ds-max.png',
+                webUrl: 'https://www.autodesk.in/products/3ds-max/overview?term=1-YEAR&tab=subscription'
+            },
+          
+        ],
+        projectType: projectTypes[1],
+        category: categories[0]
     },
     
 ]

@@ -29,7 +29,8 @@ export const assets = {
         ice: require("@images/home/myLatestProject/projects/ice.png"),
         food: require("@images/home/myLatestProject/projects/food.png"),
         trad: require("@images/home/myLatestProject/projects/aRT OF iNDIA.png"),
-        traffic: require("@images/home/myLatestProject/projects/1.png"),
+        bot: require("@images/home/myLatestProject/projects/Drone.png"),
+        car: require("@images/home/myLatestProject/projects/car_race.png"),
 
       },
     },
@@ -40,7 +41,7 @@ export const assets = {
       teaCup: require("@images/home/quote/tea-cup.webp"),
     },
     technologyStack: {
-      threedsMax: require("@images/home/technologyStack/3dx.png"),
+      blender: require("@images/home/technologyStack/blender.png"),
       Figma: require("@images/home/technologyStack/figma.png"),
       Filmora: require("@images/home/technologyStack/filmora.png"),
       cplus: require("@images/home/technologyStack/c++.png"),
