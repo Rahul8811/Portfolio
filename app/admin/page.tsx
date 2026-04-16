@@ -158,7 +158,7 @@ export default function AdminPage() {
         body: JSON.stringify(updated),
       });
       if (res.ok) {
-        showToast("Saved successfully! 🎉", "success");
+        showToast("Saved! Site is redeploying (~1 min) 🚀", "success");
         setData(updated);
       } else {
         showToast("Save failed. Try again.", "error");
