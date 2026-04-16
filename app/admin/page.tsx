@@ -157,14 +157,16 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updated),
       });
+      const json = await res.json();
       if (res.ok) {
         showToast("Saved! Site is redeploying (~1 min) 🚀", "success");
         setData(updated);
       } else {
-        showToast("Save failed. Try again.", "error");
+        showToast(`Error: ${json.error || "Unknown error"}`, "error");
+        console.error("Save error detail:", json);
       }
-    } catch {
-      showToast("Network error.", "error");
+    } catch (err: any) {
+      showToast(`Network error: ${err?.message}`, "error");
     } finally {
       setSaving(false);
     }
