@@ -227,7 +227,7 @@ export default function AdminPage() {
               🔐
             </div>
             <h1 className="text-3xl font-extrabold text-white mb-1">Admin Panel</h1>
-            <p className="text-slate-400 text-sm">Rahul's Portfolio CMS</p>
+            <p className="text-slate-400 text-sm">Rahul&apos;s Portfolio CMS</p>
           </div>
           <form
             onSubmit={handleLogin}

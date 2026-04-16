@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+export const runtime = 'nodejs';
+
+
 const DATA_FILE = path.join(process.cwd(), 'content', 'portfolio-data.json');
 
 function readData() {
