@@ -6,94 +6,84 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { BsGithub } from 'react-icons/bs';
 import { IoMdOpen } from 'react-icons/io';
-import { BsInfoCircle } from 'react-icons/bs';
 import { FiFigma } from 'react-icons/fi';
 import styles from "./home.module.css";
 
+// ─── Resolve local image key → asset (keeps all existing local images working) ─
+const projectImageMap: Record<string, any> = {
+    gym: assets.home.myLatestProject.projects.gym,
+    runner: assets.home.myLatestProject.projects.runner,
+    ice: assets.home.myLatestProject.projects.ice,
+    food: assets.home.myLatestProject.projects.food,
+    trad: assets.home.myLatestProject.projects.trad,
+    bot: assets.home.myLatestProject.projects.bot,
+    car: assets.home.myLatestProject.projects.car,
+};
 
-export const tabs = [
-    {
-        name: 'Project',
-        image: assets.home.myLatestProject.suitcase,
-        data: [
-            {
-                slug: 'Open-World-gym',
-                title: 'Open World Gym - Seige',
-                image: assets.home.myLatestProject.projects.gym,
-                repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
-                demoUrl: "https://rahul90.itch.io/open-world-gym",
-            },
-            {
-                slug: 'Endless-runner',
-                title: 'Endless runner - Game',
-                image: assets.home.myLatestProject.projects.runner,
-                repositoryUrl: "https://github.com/Rahul8811/Endless-Runner",
-                demoUrl: "https://rahul90.itch.io/the-endless-road",
-            },
-            {
-                slug: 'Drone-fight',
-                title: 'Drone_fight',
-                image: assets.home.myLatestProject.projects.bot,
-                repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
-                demoUrl: "https://rahul90.itch.io/drone-fight",
-            },
-            {
-                slug: 'Time-race',
-                title: 'Time-Race',
-                image: assets.home.myLatestProject.projects.car,
-                repositoryUrl: "https://github.com/Rahul8811/Open-World-Gym",
-                demoUrl: "https://rahul90.itch.io/race-against-time",
-            },
-       
-        ]
-    },
-    {
-        name: 'Design',
-        image: assets.home.myLatestProject.figma,
-        data: [
-            {
-                slug: 'Ice cream',
-                title: 'Ice Cream',
-                image: assets.home.myLatestProject.projects.ice,
-                repositoryUrl: "https://rb.gy/97c340",
-                demoUrl: "https://rb.gy/97c340",
-            },
-            {
-                slug: 'Food Stall',
-                title: 'Food Stall',
-                image: assets.home.myLatestProject.projects.food,
-                repositoryUrl: "https://rb.gy/gzsu7d",
-                demoUrl: "https://rb.gy/gzsu7d",
-            },
-            {
-                slug: 'Trad',
-                title: 'Colors Of India',
-                image: assets.home.myLatestProject.projects.trad,
-                repositoryUrl: "https://rb.gy/f9kik0",
-                demoUrl: "https://rb.gy/f9kik0",
-            },
-        ],
-    },
-];
+function resolveImage(imageKey: string, imageUrl: string) {
+    if (imageUrl) return imageUrl; // external URL takes priority
+    return projectImageMap[imageKey] ?? assets.home.myLatestProject.projects.gym;
+}
 
-tabs.push({
-    name: 'All',
-    image: assets.home.myLatestProject.rocket,
-    data: []
-});
+// ─── Tab button images ────────────────────────────────────────────────────────
+const tabMeta: Record<string, any> = {
+    Project: assets.home.myLatestProject.suitcase,
+    Design: assets.home.myLatestProject.figma,
+};
 
 export default function SectionMyLatestProject() {
     const [activeTab, setActiveTab] = useState(0);
+    const [tabs, setTabs] = useState<any[]>([]);
+    const [loaded, setLoaded] = useState(false);
 
-    const { ref, inView } = useInView({
-        threshold: 0.1,
-        triggerOnce: true,
-    });
+    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
-    const router = useRouter();
+    // ── Load data from CMS JSON ───────────────────────────────────────────────
+    useEffect(() => {
+        fetch('/api/admin/data')
+            .then((r) => r.json())
+            .then((data) => {
+                const tabOrder = ['Project', 'Design'];
+                const built = tabOrder.map((tabName) => ({
+                    name: tabName,
+                    image: tabMeta[tabName],
+                    data: (data.projects as any[])
+                        .filter((p) => p.tab === tabName)
+                        .map((p) => ({
+                            slug: p.slug,
+                            title: p.title,
+                            image: resolveImage(p.imageKey, p.imageUrl),
+                            repositoryUrl: p.repositoryUrl,
+                            demoUrl: p.demoUrl,
+                            tab: p.tab,
+                        })),
+                }));
+
+                // "All" tab = every project + design combined
+                const allItems = (data.projects as any[]).map((p) => ({
+                    slug: p.slug,
+                    title: p.title,
+                    image: resolveImage(p.imageKey, p.imageUrl),
+                    repositoryUrl: p.repositoryUrl,
+                    demoUrl: p.demoUrl,
+                    tab: p.tab,
+                }));
+
+                built.push({
+                    name: 'All',
+                    image: assets.home.myLatestProject.rocket,
+                    data: allItems,
+                });
+                setTabs(built);
+                setLoaded(true);
+            })
+            .catch(() => {
+                setTabs([]);
+                setLoaded(true);
+            });
+    }, []);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -101,14 +91,12 @@ export default function SectionMyLatestProject() {
         if (tab && parseInt(tab) < tabs.length - 1) {
             setActiveTab(parseInt(tab));
         }
-    }, [activeTab])
+    }, [activeTab, tabs.length]);
+
+    if (!loaded) return null; // wait for data before rendering
 
     return (
         <section ref={ref} className={`safe-x-padding ${styles.sectionDistance}`} aria-label='My Latest Project Section'>
-            <style jsx>{`
-           
-            `}</style>
-
             <div className='text-center'>
                 <motion.h2 initial={{ y: 100, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.5 }} className={`${styles.sectionTitle} pb-8`}>My Latest Project</motion.h2>
                 <motion.p initial={{ y: 100, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.7 }} className={`${styles.sectionDescription} max-w-[706px] mx-auto`}>Take a look at something I&apos;ve worked on, such as a case study, real project, and more</motion.p>
@@ -124,35 +112,24 @@ export default function SectionMyLatestProject() {
                                 animate={inView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                                 onClick={() => {
-                                    if (index === tabs.length - 1) {
-                                        router.push('/project');
-                                        return;
-                                    }
                                     setActiveTab(index);
                                     window.history.pushState({}, '', `?tab=${index}`);
                                 }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Image
-                                    src={tab.image}
-                                    alt=""
-                                    width={100}
-                                    height={100}
-                                    style={{ height: 'auto' }}
-                                />
+                                <Image src={tab.image} alt="" width={100} height={100} style={{ height: 'auto' }} />
                                 <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full transition-opacity duration-300 opacity-0 bg-gray/10 backdrop-blur-sm rounded-2xl md:rounded-[25px] hover:opacity-100 md:text-2xl">
                                     <p className={`${activeTab === index ? 'text-white' : 'text-accent'} font-bold transition-colors duration-75 ease-in-out`}>{tab.name}</p>
                                 </div>
                             </motion.button>
-
                         ))}
                     </div>
                     <div className='overflow-hidden'>
                         <div className='bg-gray rounded-[36px] p-[26px] w-full h-[600px] overflow-y-auto'>
                             <div className='grid grid-flow-row grid-cols-12 gap-[26px]'>
                                 {tabs.map((tab, tabIndex) =>
-                                    tab.data.map((item, dataIndex) =>
+                                    tab.data.map((item: any, dataIndex: number) =>
                                         activeTab === tabIndex && (
                                             <motion.div
                                                 key={dataIndex.toString()}
@@ -187,42 +164,23 @@ export default function SectionMyLatestProject() {
                                                             {item.repositoryUrl && (
                                                                 <Link
                                                                     className="p-4 transition-all duration-150 ease-in-out bg-gray rounded-2xl hover:text-white hover:bg-gradient-to-r hover:from-primary hover:to-secondary"
-                                                                    href={{
-                                                                        pathname: item.repositoryUrl,
-                                                                        query: {
-                                                                            utm_source: 'rahul.my.id',
-                                                                            utm_medium: 'campaign',
-                                                                            utm_campaign: 'portfolio'
-                                                                        }
-                                                                    }}
+                                                                    href={{ pathname: item.repositoryUrl, query: { utm_source: 'rahul.my.id', utm_medium: 'campaign', utm_campaign: 'portfolio' } }}
                                                                     target='_blank'
                                                                     title="Repository"
                                                                 >
-                                                                    {tabs[activeTab].name.toLowerCase() === "project" ? (
-                                                                        <BsGithub />
-                                                                    ) : (
-                                                                        <FiFigma />
-                                                                    )}
+                                                                    {tabs[activeTab].name.toLowerCase() === "project" ? <BsGithub /> : <FiFigma />}
                                                                 </Link>
                                                             )}
                                                             {item.demoUrl && (
                                                                 <Link
                                                                     className="p-4 transition-all duration-300 ease-in-out bg-gray rounded-2xl hover:text-white hover:bg-gradient-to-r hover:from-primary hover:to-secondary"
-                                                                    href={{
-                                                                        pathname: item.demoUrl,
-                                                                        query: {
-                                                                            utm_source: 'rahul.my.id',
-                                                                            utm_medium: 'campaign',
-                                                                            utm_campaign: 'portfolio'
-                                                                        }
-                                                                    }}
+                                                                    href={{ pathname: item.demoUrl, query: { utm_source: 'rahul.my.id', utm_medium: 'campaign', utm_campaign: 'portfolio' } }}
                                                                     target='_blank'
                                                                     title="Demo"
                                                                 >
                                                                     <IoMdOpen />
                                                                 </Link>
                                                             )}
-                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -236,5 +194,5 @@ export default function SectionMyLatestProject() {
                 </div>
             </div>
         </section>
-    )
+    );
 }

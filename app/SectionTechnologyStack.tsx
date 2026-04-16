@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { assets } from '@/constant/assets'
 import Image from 'next/image'
 import React from 'react'
@@ -8,61 +9,36 @@ import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import styles from "./home.module.css";
 
+// Map imageKey → local asset
+const techImageMap: Record<string, any> = {
+    Python: assets.home.technologyStack.Python,
+    cplus: assets.home.technologyStack.cplus,
+    blender: assets.home.technologyStack.blender,
+    ue: assets.home.technologyStack.ue,
+    Figma: assets.home.technologyStack.Figma,
+    sd: assets.home.technologyStack.sd,
+    Filmora: assets.home.technologyStack.Filmora,
+    HTML: assets.home.technologyStack.HTML,
+    css: assets.home.technologyStack.css,
+};
 
-const technologyStack = [
-    {
-        name: 'Python',
-        image: assets.home.technologyStack.Python,
-        officialSite: 'https://www.python.org/',
-    },
-    {
-        name: 'C++',
-        image: assets.home.technologyStack.cplus,
-        officialSite: 'https://cplusplus.com/',
-    },
-    {
-        name: 'Blender',
-        image: assets.home.technologyStack.blender,
-        officialSite: 'https://www.autodesk.in/products/3ds-max/overview?term=1-YEAR&tab=subscription',
-    },
-    {
-        name: 'Unreal engine',
-        image: assets.home.technologyStack.ue,
-        officialSite: 'https://www.unrealengine.com/en-US?sessionInvalidated=true',
-    },
-    {
-        name: "Figma",
-        image: assets.home.technologyStack.Figma,
-        officialSite: 'https://www.figma.com/',
-    },
-    {
-        name: "Shaper 3D",
-        image: assets.home.technologyStack.sd,
-        officialSite: 'https://www.shapr3d.com/',
-    },
-    {
-        name: "Filmora",
-        image: assets.home.technologyStack.Filmora,
-        officialSite: 'Filmora',
-    },
-    {
-        name: "HTML",
-        image: assets.home.technologyStack.HTML,
-        officialSite: 'https://html.com/',
-    },
-    {
-        name: "CSS",
-        image: assets.home.technologyStack.css,
-        officialSite: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-    },
-  
-]
+interface TechItem {
+    id: string;
+    name: string;
+    imageKey: string;
+    officialSite: string;
+}
 
 export default function SectionTechnologyStack() {
-    const { ref, inView } = useInView({
-        threshold: 0.1,
-        triggerOnce: true,
-    });
+    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+    const [techStack, setTechStack] = useState<TechItem[]>([]);
+
+    useEffect(() => {
+        fetch('/api/admin/data')
+            .then((r) => r.json())
+            .then((data) => { if (data.technologies) setTechStack(data.technologies); })
+            .catch(() => { /* keep empty */ });
+    }, []);
 
     return (
         <section ref={ref} className={`safe-x-padding ${styles.sectionDistance}`}>
@@ -72,8 +48,8 @@ export default function SectionTechnologyStack() {
             </div>
             <div className='flex items-center justify-center mt-12'>
                 <div className='flex flex-row gap-[50px] max-w-[864px] flex-wrap justify-center items-center'>
-                    {technologyStack.map((item, index) => (
-                        <div key={index.toString()} className='relative h-full'>
+                    {techStack.map((item, index) => (
+                        <div key={item.id} className='relative h-full'>
                             <motion.div
                                 className="flex justify-center items-center w-[100px] h-[100px] transition-all duration-150 ease-in-out"
                                 initial={{ opacity: 0, y: 20 }}
@@ -82,36 +58,25 @@ export default function SectionTechnologyStack() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Image
-                                    className='w-auto h-[100px]'
-                                    src={item.image}
-                                    width={0}
-                                    height={100}
-                                    alt={item.name}
-                                />
+                                {techImageMap[item.imageKey] ? (
+                                    <Image className='w-auto h-[100px]' src={techImageMap[item.imageKey]} width={0} height={100} alt={item.name} />
+                                ) : (
+                                    <div className="w-[80px] h-[80px] rounded-2xl bg-gray flex items-center justify-center text-accent2 text-xs font-bold text-center p-2">{item.name}</div>
+                                )}
                                 <Link
-                                    href={{
-                                        pathname: item.officialSite,
-                                        query: {
-                                            utm_source: 'rahul.my.id',
-                                            utm_medium: 'campaign',
-                                            utm_campaign: 'portfolio'
-                                        }
-                                    }}
+                                    href={{ pathname: item.officialSite, query: { utm_source: 'rahul.my.id', utm_medium: 'campaign', utm_campaign: 'portfolio' } }}
                                     target="_blank"
                                     title={`Figure out about ${item.name}`}
                                 >
                                     <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full p-1 text-white transition-all duration-300 bg-opacity-50 opacity-0 gradient-bg hover:opacity-100 rounded-xl">
-                                        <p className='font-semibold text-center line-clamp-3'>
-                                            {item.name}
-                                        </p>
+                                        <p className='font-semibold text-center line-clamp-3'>{item.name}</p>
                                     </div>
                                 </Link>
                             </motion.div>
                         </div>
                     ))}
                 </div>
-            </div >
-        </section >
-    )
+            </div>
+        </section>
+    );
 }

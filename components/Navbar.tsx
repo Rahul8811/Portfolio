@@ -11,6 +11,7 @@ import { usePathname } from 'next/navigation';
 import Banner from './Banner';
 import { RxCaretRight } from 'react-icons/rx';
 import { BsFileEarmarkPerson } from 'react-icons/bs';
+import { RiAdminLine } from 'react-icons/ri';
 
 const navlinks = [
     {
@@ -100,6 +101,14 @@ export default function Navbar(): JSX.Element {
                         </ul>
                         {/* resume change  */}
                         <a className='px-6 py-2 text-white gradient-btn rounded-xl' href="https://drive.google.com/file/d/1czbfOT-0BF3VBxsRxuH08vb2QqQwuXxE/view?usp=drive_link" download="Rahul Sharma Resume">Resume</a>
+                        {/* Admin button - subtle lock icon */}
+                        <Link
+                            href="/admin"
+                            title="Admin Panel"
+                            className="p-2 rounded-xl text-accent2 hover:text-accent hover:bg-gray transition-all duration-200"
+                        >
+                            <RiAdminLine className="text-2xl" />
+                        </Link>
                     </div>
                     {/* mobile hamburger menu */}
                     <div className="z-50 md:hidden">
