@@ -150,6 +150,13 @@
       "imageKey": "Unity1",
       "imageUrl": "https://www.ciit.edu.ph/wp-content/uploads/2021/09/pngegg.png",
       "officialSite": "https://unity.com/"
+    },
+    {
+      "id": "tech-1776456386796",
+      "name": "C#",
+      "imageKey": "",
+      "imageUrl": "https://cdn-icons-png.flaticon.com/512/74/74906.png",
+      "officialSite": "https://www.w3schools.com/cs/index.php"
     }
   ]
 }
