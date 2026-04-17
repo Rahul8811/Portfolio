@@ -1,19 +1,9 @@
 import localFont from "next/font/local";
-import { Montserrat, Poppins } from "next/font/google";
 
-export const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-export const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
-  display: "swap",
-});
+// Montserrat and Poppins are self-hosted via @fontsource (see globals.css).
+// These stubs keep layout.tsx and Tailwind CSS variables working unchanged.
+export const montserrat = { variable: "" };
+export const poppins = { variable: "" };
 
 export const suarte = localFont({
   src: "../assets/fonts/suarte/Suarte Free.ttf",
