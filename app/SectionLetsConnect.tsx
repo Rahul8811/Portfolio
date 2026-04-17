@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -9,22 +9,18 @@ import styles from './home.module.css';
 
 const AnimatedImage = motion(Image);
 
-export default function SectionLetsConnect() {
-    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
-    const [social, setSocial] = useState({
-        linkedin: 'https://www.linkedin.com/in/rahul-sharma-2001may',
-        instagram: 'https://www.instagram.com/rahul90__/',
-        github: 'https://github.com/Rahul8811',
-        dribbble: 'https://dribbble.com/rahul90__',
-        email: 'mailto:rahulshr8811@gmail.com',
-    });
+interface Props {
+    social: {
+        linkedin: string;
+        instagram: string;
+        github: string;
+        dribbble: string;
+        email: string;
+    };
+}
 
-    useEffect(() => {
-        fetch('/api/admin/data')
-            .then((r) => r.json())
-            .then((data) => { if (data.social) setSocial(data.social); })
-            .catch(() => { /* use defaults */ });
-    }, []);
+export default function SectionLetsConnect({ social }: Props) {
+    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
     const socialMediaLinks = [
         { initial: { y: 50, opacity: 0 }, animate: inView ? { y: 0, opacity: 1 } : {}, transition: { duration: 0.5, delay: 0.4 }, whileHover: { scale: 1.1, transition: { duration: 0.2 } }, className: "hidden lg:block absolute hover:cursor-pointer top-14 left-14 xl:left-24 w-10 h-10 md:w-[168px] md:h-[168px] z-10", src: assets.home.letsConnect.linkedin, alt: "", width: 168, height: 168, tabIndex: 0, onClick: () => window.open(social.linkedin, '_blank') },

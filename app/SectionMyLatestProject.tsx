@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { assets } from '@/constant/assets';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
@@ -11,7 +11,6 @@ import { IoMdOpen } from 'react-icons/io';
 import { FiFigma } from 'react-icons/fi';
 import styles from "./home.module.css";
 
-// ─── Resolve local image key → asset (keeps all existing local images working) ─
 const projectImageMap: Record<string, any> = {
     gym: assets.home.myLatestProject.projects.gym,
     runner: assets.home.myLatestProject.projects.runner,
@@ -23,67 +22,63 @@ const projectImageMap: Record<string, any> = {
 };
 
 function resolveImage(imageKey: string, imageUrl: string) {
-    if (imageUrl) return imageUrl; // external URL takes priority
+    if (imageUrl) return imageUrl;
     return projectImageMap[imageKey] ?? assets.home.myLatestProject.projects.gym;
 }
 
-// ─── Tab button images ────────────────────────────────────────────────────────
 const tabMeta: Record<string, any> = {
     Project: assets.home.myLatestProject.suitcase,
     Design: assets.home.myLatestProject.figma,
 };
 
-export default function SectionMyLatestProject() {
-    const [activeTab, setActiveTab] = useState(0);
-    const [tabs, setTabs] = useState<any[]>([]);
-    const [loaded, setLoaded] = useState(false);
+interface ProjectItem {
+    id: string;
+    tab: string;
+    slug: string;
+    title: string;
+    imageKey: string;
+    imageUrl: string;
+    repositoryUrl: string;
+    demoUrl: string;
+}
 
+interface Props {
+    projects: ProjectItem[];
+}
+
+export default function SectionMyLatestProject({ projects }: Props) {
+    const [activeTab, setActiveTab] = useState(0);
     const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
-    // ── Load data from CMS JSON ───────────────────────────────────────────────
-    useEffect(() => {
-        fetch('/api/admin/data')
-            .then((r) => r.json())
-            .then((data) => {
-                const tabOrder = ['Project', 'Design'];
-                const built = tabOrder.map((tabName) => ({
-                    name: tabName,
-                    image: tabMeta[tabName],
-                    data: (data.projects as any[])
-                        .filter((p) => p.tab === tabName)
-                        .map((p) => ({
-                            slug: p.slug,
-                            title: p.title,
-                            image: resolveImage(p.imageKey, p.imageUrl),
-                            repositoryUrl: p.repositoryUrl,
-                            demoUrl: p.demoUrl,
-                            tab: p.tab,
-                        })),
-                }));
-
-                // "All" tab = every project + design combined
-                const allItems = (data.projects as any[]).map((p) => ({
+    const tabOrder = ['Project', 'Design'];
+    const tabs = [
+        ...tabOrder.map((tabName) => ({
+            name: tabName,
+            image: tabMeta[tabName],
+            data: projects
+                .filter((p) => p.tab === tabName)
+                .map((p) => ({
                     slug: p.slug,
                     title: p.title,
                     image: resolveImage(p.imageKey, p.imageUrl),
                     repositoryUrl: p.repositoryUrl,
                     demoUrl: p.demoUrl,
                     tab: p.tab,
-                }));
-
-                built.push({
-                    name: 'All',
-                    image: assets.home.myLatestProject.rocket,
-                    data: allItems,
-                });
-                setTabs(built);
-                setLoaded(true);
-            })
-            .catch(() => {
-                setTabs([]);
-                setLoaded(true);
-            });
-    }, []);
+                })),
+        })),
+        {
+            name: 'All',
+            image: assets.home.myLatestProject.rocket,
+            data: projects.map((p) => ({
+                slug: p.slug,
+                title: p.title,
+                image: resolveImage(p.imageKey, p.imageUrl),
+                repositoryUrl: p.repositoryUrl,
+                demoUrl: p.demoUrl,
+                tab: p.tab,
+            })),
+        },
+    ];
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -91,9 +86,8 @@ export default function SectionMyLatestProject() {
         if (tab && parseInt(tab) < tabs.length - 1) {
             setActiveTab(parseInt(tab));
         }
-    }, [activeTab, tabs.length]);
-
-    if (!loaded) return null; // wait for data before rendering
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <section ref={ref} className={`safe-x-padding ${styles.sectionDistance}`} aria-label='My Latest Project Section'>

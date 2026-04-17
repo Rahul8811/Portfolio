@@ -50,7 +50,7 @@ const blankTech = (): Technology => ({
 });
 
 // ─── Small UI helpers ─────────────────────────────────────────────────────────
-const TABS = ["Projects", "Technologies", "Hero", "Social & Quote"] as const;
+const TABS = ["Projects", "Technologies", "Hero", "Social & Quote", "Resume"] as const;
 type TabName = typeof TABS[number];
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -128,6 +128,10 @@ export default function AdminPage() {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingTech, setEditingTech] = useState<Technology | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeDragging, setResumeDragging] = useState(false);
+  const [resumeUploading, setResumeUploading] = useState(false);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
 
   // ── Auth ──────────────────────────────────────────────────────────────────
   const ADMIN_PASSWORD = "rahul@admin123"; // change this!
@@ -175,6 +179,27 @@ export default function AdminPage() {
   function showToast(msg: string, type: "success" | "error") {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3500);
+  }
+
+  async function uploadResume() {
+    if (!resumeFile) return;
+    setResumeUploading(true);
+    try {
+      const form = new FormData();
+      form.append('resume', resumeFile);
+      const res = await fetch('/api/admin/resume', { method: 'POST', body: form });
+      const json = await res.json();
+      if (res.ok) {
+        showToast('Resume uploaded! Site is redeploying (~1 min) 🚀', 'success');
+        setResumeFile(null);
+      } else {
+        showToast(`Error: ${json.error || 'Unknown error'}`, 'error');
+      }
+    } catch (err: any) {
+      showToast(`Network error: ${err?.message}`, 'error');
+    } finally {
+      setResumeUploading(false);
+    }
   }
 
   // ── Project helpers ───────────────────────────────────────────────────────
@@ -558,6 +583,92 @@ export default function AdminPage() {
               >
                 {saving ? "Saving…" : "Save Changes"}
               </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ═══ RESUME ══════════════════════════════════════════════════════════ */}
+        {activeTab === "Resume" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl">
+            <h2 className="text-xl font-bold mb-2">Resume / CV</h2>
+            <p className="text-slate-500 text-sm mb-6">
+              Upload a PDF to replace <code className="text-slate-300 bg-[#1e2535] px-1.5 py-0.5 rounded">/resume.pdf</code> on your site. The Navbar "Resume" button will serve this file directly.
+            </p>
+
+            {/* Drop zone */}
+            <div
+              onDragOver={(e) => { e.preventDefault(); setResumeDragging(true); }}
+              onDragLeave={() => setResumeDragging(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setResumeDragging(false);
+                const dropped = e.dataTransfer.files[0];
+                if (dropped?.type === 'application/pdf') setResumeFile(dropped);
+                else showToast('Please drop a PDF file', 'error');
+              }}
+              onClick={() => resumeInputRef.current?.click()}
+              className={`border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                resumeDragging
+                  ? 'border-purple-500 bg-purple-500/10'
+                  : resumeFile
+                  ? 'border-emerald-500 bg-emerald-500/10'
+                  : 'border-[#2e3a50] bg-[#161d2f] hover:border-purple-500/60'
+              }`}
+            >
+              <input
+                ref={resumeInputRef}
+                type="file"
+                accept="application/pdf"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) setResumeFile(f);
+                }}
+              />
+              <div className="text-4xl mb-3">{resumeFile ? '📄' : '📂'}</div>
+              {resumeFile ? (
+                <>
+                  <p className="font-semibold text-emerald-400 text-sm">{resumeFile.name}</p>
+                  <p className="text-slate-500 text-xs mt-1">
+                    {(resumeFile.size / 1024).toFixed(1)} KB — click to change
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-semibold text-slate-300 text-sm">Drag & drop your PDF here</p>
+                  <p className="text-slate-500 text-xs mt-1">or click to browse</p>
+                </>
+              )}
+            </div>
+
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={uploadResume}
+                disabled={!resumeFile || resumeUploading}
+                className="gradient-btn rounded-xl px-6 py-2.5 text-sm font-bold disabled:opacity-40"
+              >
+                {resumeUploading ? 'Uploading…' : 'Upload & Save Resume'}
+              </button>
+              {resumeFile && (
+                <button
+                  onClick={() => setResumeFile(null)}
+                  className="px-4 py-2.5 rounded-xl border border-[#2e3a50] text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            <div className="mt-8 bg-[#161d2f] border border-[#2e3a50] rounded-2xl p-5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Current Resume</p>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                className="text-sm text-blue-400 hover:underline"
+              >
+                /resume.pdf ↗
+              </a>
+              <p className="text-slate-600 text-xs mt-1">Opens the currently deployed resume file</p>
             </div>
           </motion.div>
         )}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { assets } from '@/constant/assets'
 import Image from 'next/image'
 import React from 'react'
@@ -9,7 +8,6 @@ import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import styles from "./home.module.css";
 
-// Map imageKey → local asset
 const techImageMap: Record<string, any> = {
     Python: assets.home.technologyStack.Python,
     cplus: assets.home.technologyStack.cplus,
@@ -29,16 +27,12 @@ interface TechItem {
     officialSite: string;
 }
 
-export default function SectionTechnologyStack() {
-    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
-    const [techStack, setTechStack] = useState<TechItem[]>([]);
+interface Props {
+    technologies: TechItem[];
+}
 
-    useEffect(() => {
-        fetch('/api/admin/data')
-            .then((r) => r.json())
-            .then((data) => { if (data.technologies) setTechStack(data.technologies); })
-            .catch(() => { /* keep empty */ });
-    }, []);
+export default function SectionTechnologyStack({ technologies }: Props) {
+    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
     return (
         <section ref={ref} className={`safe-x-padding ${styles.sectionDistance}`}>
@@ -48,7 +42,7 @@ export default function SectionTechnologyStack() {
             </div>
             <div className='flex items-center justify-center mt-12'>
                 <div className='flex flex-row gap-[50px] max-w-[864px] flex-wrap justify-center items-center'>
-                    {techStack.map((item, index) => (
+                    {technologies.map((item, index) => (
                         <div key={item.id} className='relative h-full'>
                             <motion.div
                                 className="flex justify-center items-center w-[100px] h-[100px] transition-all duration-150 ease-in-out"

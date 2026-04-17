@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { assets } from '@/constant/assets'
 import Image from 'next/image'
 import { MotionProps, motion } from 'framer-motion'
@@ -16,21 +15,12 @@ interface IAnimateImageProps extends MotionProps {
 
 const AnimatedImage = motion(Image);
 
-export default function SectionHero(): JSX.Element {
+interface Props {
+    hero: { greeting: string; headline: string; tagline: string };
+}
+
+export default function SectionHero({ hero }: Props): JSX.Element {
     const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
-
-    const [hero, setHero] = useState({
-        greeting: "Welcome to Rahul's Portfolio",
-        headline: "Designer of Dreams",
-        tagline: "I'm Rahul Sharma. A passionate Game Designer and UI/UX Designer From Gurgaon, Haryana, India.",
-    });
-
-    useEffect(() => {
-        fetch('/api/admin/data')
-            .then((r) => r.json())
-            .then((data) => { if (data.hero) setHero(data.hero); })
-            .catch(() => { /* use defaults */ });
-    }, []);
 
     const animatedImages: IAnimateImageProps[] = [
         { className: 'w-[140px] h-auto lg:w-[180px] lg:h-[120px] absolute top-3 -left-16 z-[1]', src: assets.home.hero.zigZag, width: 180, height: 120, alt: '', initial: { opacity: 0, x: -100 }, animate: inView ? { opacity: 1, x: 0 } : {}, transition: { delay: 0.4, duration: 0.8 } },

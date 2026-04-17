@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { motion } from "framer-motion";
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
@@ -10,19 +10,12 @@ import styles from "./home.module.css";
 
 const AnimatedImage = motion(Image);
 
-export default function SectionQuote() {
-    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
-    const [quote, setQuote] = useState({
-        text: "A designer knows he has achieved perfection not when there is nothing left to add, but when there is nothing left to take away.",
-        author: "Rahul Sharma",
-    });
+interface Props {
+    quote: { text: string; author: string };
+}
 
-    useEffect(() => {
-        fetch('/api/admin/data')
-            .then((r) => r.json())
-            .then((data) => { if (data.quote) setQuote(data.quote); })
-            .catch(() => { /* use defaults */ });
-    }, []);
+export default function SectionQuote({ quote }: Props) {
+    const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
     const animatedFloatingImages = [
         { className: "absolute -z-10 -top-20 left-10 md:left-36 lg:left-48 lg:-top-24 w-[70px] h-[70px] lg:w-[100px] lg:h-[100px]", src: assets.home.quote.teaCup, width: 100, height: 100, alt: '', initial: { y: 50, x: -50, opacity: 0 }, animate: inView ? { y: 0, x: 0, opacity: 1 } : {}, transition: { duration: 0.5, delay: 0.2 } },
