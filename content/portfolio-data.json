@@ -157,6 +157,13 @@
       "imageKey": "",
       "imageUrl": "https://cdn-icons-png.flaticon.com/512/74/74906.png",
       "officialSite": "https://www.w3schools.com/cs/index.php"
+    },
+    {
+      "id": "tech-1776456681160",
+      "name": "Aseprite",
+      "imageKey": "",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1mUIGW2ENK3Tak5UY7y9feW7zd1WV4WnyWQ&s",
+      "officialSite": ""
     }
   ]
 }
