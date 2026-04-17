@@ -24,6 +24,7 @@ interface Technology {
 }
 
 interface PortfolioData {
+  openToWork: boolean;
   hero: { greeting: string; headline: string; tagline: string };
   quote: { text: string; author: string };
   social: { linkedin: string; instagram: string; github: string; dribbble: string; email: string };
@@ -554,6 +555,31 @@ export default function AdminPage() {
         {/* ═══ HERO ════════════════════════════════════════════════════════════ */}
         {activeTab === "Hero" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl">
+
+            {/* Open to Work toggle */}
+            <div className="bg-[#161d2f] border border-[#2e3a50] rounded-2xl p-6 mb-8 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-bold">Open to Work</h2>
+                <p className="text-slate-500 text-sm mt-0.5">Shows a banner at the top of your portfolio</p>
+              </div>
+              <button
+                onClick={() => {
+                  const updated = { ...data, openToWork: !data.openToWork };
+                  saveData(updated);
+                }}
+                disabled={saving}
+                className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
+                  data.openToWork ? 'gradient-bg' : 'bg-slate-600'
+                }`}
+              >
+                <span
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                    data.openToWork ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+
             <h2 className="text-xl font-bold mb-6">Hero Section</h2>
             <div className="bg-[#161d2f] border border-[#2e3a50] rounded-2xl p-6 space-y-5">
               <div>

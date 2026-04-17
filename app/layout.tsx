@@ -19,6 +19,7 @@ import '@fontsource/poppins/700.css'
 import '@fontsource/poppins/800.css'
 import '@fontsource/poppins/900.css'
 import Navbar from '../components/Navbar'
+import portfolioData from '../content/portfolio-data.json'
 
 export const metadata = {
   title: "Rahul Sharma",
@@ -30,10 +31,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const openToWork = (portfolioData as any).openToWork ?? false
+
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} lg:overflow-x-hidden`}>
       <body>
-        <Navbar />
+        <Navbar openToWork={openToWork} />
         {children}
       </body>
     </html>
