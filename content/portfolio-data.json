@@ -92,48 +92,56 @@
       "id": "tech-1",
       "name": "Python",
       "imageKey": "Python",
+      "imageUrl": "",
       "officialSite": "https://www.python.org/"
     },
     {
       "id": "tech-2",
       "name": "C++",
       "imageKey": "cplus",
+      "imageUrl": "",
       "officialSite": "https://cplusplus.com/"
     },
     {
       "id": "tech-3",
       "name": "Blender",
       "imageKey": "blender",
+      "imageUrl": "",
       "officialSite": "https://www.autodesk.in/products/3ds-max/overview?term=1-YEAR&tab=subscription"
     },
     {
       "id": "tech-4",
       "name": "Unreal engine",
       "imageKey": "ue",
+      "imageUrl": "",
       "officialSite": "https://www.unrealengine.com/en-US?sessionInvalidated=true"
     },
     {
       "id": "tech-5",
       "name": "Figma",
       "imageKey": "Figma",
+      "imageUrl": "",
       "officialSite": "https://www.figma.com/"
     },
     {
       "id": "tech-7",
       "name": "Filmora",
       "imageKey": "Filmora",
+      "imageUrl": "",
       "officialSite": "https://filmora.wondershare.com/"
     },
     {
       "id": "tech-8",
       "name": "HTML",
       "imageKey": "HTML",
+      "imageUrl": "",
       "officialSite": "https://html.com/"
     },
     {
       "id": "tech-9",
       "name": "CSS",
       "imageKey": "css",
+      "imageUrl": "",
       "officialSite": "https://developer.mozilla.org/en-US/docs/Web/CSS"
     }
   ]

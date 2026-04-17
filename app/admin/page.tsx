@@ -19,6 +19,7 @@ interface Technology {
   id: string;
   name: string;
   imageKey: string;
+  imageUrl: string;
   officialSite: string;
 }
 
@@ -46,6 +47,7 @@ const blankTech = (): Technology => ({
   id: `tech-${Date.now()}`,
   name: "",
   imageKey: "",
+  imageUrl: "",
   officialSite: "",
 });
 
@@ -132,6 +134,10 @@ export default function AdminPage() {
   const [resumeDragging, setResumeDragging] = useState(false);
   const [resumeUploading, setResumeUploading] = useState(false);
   const resumeInputRef = useRef<HTMLInputElement>(null);
+  const [techIconFile, setTechIconFile] = useState<File | null>(null);
+  const [techIconDragging, setTechIconDragging] = useState(false);
+  const [techIconUploading, setTechIconUploading] = useState(false);
+  const techIconInputRef = useRef<HTMLInputElement>(null);
 
   // ── Auth ──────────────────────────────────────────────────────────────────
   const ADMIN_PASSWORD = "rahul@admin123"; // change this!
@@ -199,6 +205,29 @@ export default function AdminPage() {
       showToast(`Network error: ${err?.message}`, 'error');
     } finally {
       setResumeUploading(false);
+    }
+  }
+
+  async function uploadTechIcon() {
+    if (!techIconFile || !editingTech) return;
+    setTechIconUploading(true);
+    try {
+      const form = new FormData();
+      form.append('icon', techIconFile);
+      form.append('techId', editingTech.id);
+      const res = await fetch('/api/admin/tech-icon', { method: 'POST', body: form });
+      const json = await res.json();
+      if (res.ok) {
+        setEditingTech({ ...editingTech, imageUrl: json.url });
+        showToast('Icon uploaded! 🎨', 'success');
+        setTechIconFile(null);
+      } else {
+        showToast(`Error: ${json.error || 'Unknown error'}`, 'error');
+      }
+    } catch (err: any) {
+      showToast(`Network error: ${err?.message}`, 'error');
+    } finally {
+      setTechIconUploading(false);
     }
   }
 
@@ -888,6 +917,58 @@ export default function AdminPage() {
                     onChange={(v) => setEditingTech({ ...editingTech, officialSite: v })}
                     placeholder="https://..."
                   />
+                </div>
+                <div>
+                  <Label>Icon Image (PNG/JPG/SVG)</Label>
+                  <div
+                    onDragOver={(e) => { e.preventDefault(); setTechIconDragging(true); }}
+                    onDragLeave={() => setTechIconDragging(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setTechIconDragging(false);
+                      const dropped = e.dataTransfer.files[0];
+                      if (dropped && ['image/png', 'image/jpeg', 'image/svg+xml'].includes(dropped.type)) {
+                        setTechIconFile(dropped);
+                      } else {
+                        showToast('Please drop an image file (PNG/JPG/SVG)', 'error');
+                      }
+                    }}
+                    onClick={() => techIconInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transition-all ${
+                      techIconDragging
+                        ? 'border-purple-500 bg-purple-500/10'
+                        : techIconFile
+                        ? 'border-emerald-500 bg-emerald-500/10'
+                        : 'border-[#2e3a50] hover:border-purple-500/60'
+                    }`}
+                  >
+                    <input
+                      ref={techIconInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/svg+xml"
+                      className="hidden"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) setTechIconFile(f);
+                      }}
+                    />
+                    <div className="text-2xl mb-2">{techIconFile ? '🎨' : '🖼️'}</div>
+                    {techIconFile ? (
+                      <>
+                        <p className="text-xs text-emerald-400 font-semibold">{techIconFile.name}</p>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); uploadTechIcon(); }}
+                          disabled={techIconUploading}
+                          className="mt-2 px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs rounded transition-colors disabled:opacity-50"
+                        >
+                          {techIconUploading ? 'Uploading...' : 'Upload Icon'}
+                        </button>
+                      </>
+                    ) : (
+                      <p className="text-xs text-slate-500">Drag icon or click to browse</p>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-3 mt-6">

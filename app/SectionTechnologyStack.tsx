@@ -24,6 +24,7 @@ interface TechItem {
     id: string;
     name: string;
     imageKey: string;
+    imageUrl: string;
     officialSite: string;
 }
 
@@ -52,7 +53,9 @@ export default function SectionTechnologyStack({ technologies }: Props) {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                {techImageMap[item.imageKey] ? (
+                                {item.imageUrl ? (
+                                    <Image className='w-auto h-[100px]' src={item.imageUrl} width={0} height={100} alt={item.name} />
+                                ) : techImageMap[item.imageKey] ? (
                                     <Image className='w-auto h-[100px]' src={techImageMap[item.imageKey]} width={0} height={100} alt={item.name} />
                                 ) : (
                                     <div className="w-[80px] h-[80px] rounded-2xl bg-gray flex items-center justify-center text-accent2 text-xs font-bold text-center p-2">{item.name}</div>
