@@ -54,7 +54,8 @@ export default function SectionTechnologyStack({ technologies }: Props) {
                                 whileTap={{ scale: 0.95 }}
                             >
                                 {item.imageUrl ? (
-                                    <Image className='w-auto h-[100px]' src={item.imageUrl} width={0} height={100} alt={item.name} />
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img className='w-auto h-[100px] object-contain' src={item.imageUrl} alt={item.name} />
                                 ) : techImageMap[item.imageKey] ? (
                                     <Image className='w-auto h-[100px]' src={techImageMap[item.imageKey]} width={0} height={100} alt={item.name} />
                                 ) : (

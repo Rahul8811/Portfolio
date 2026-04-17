@@ -218,9 +218,11 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/tech-icon', { method: 'POST', body: form });
       const json = await res.json();
       if (res.ok) {
-        setEditingTech({ ...editingTech, imageUrl: json.url });
-        showToast('Icon uploaded! 🎨', 'success');
+        // Auto-save the tech with the new imageUrl so user doesn't need to click Save separately
+        const updatedTech = { ...editingTech, imageUrl: json.url };
         setTechIconFile(null);
+        saveTech(updatedTech);
+        showToast('Icon uploaded and saved! Site redeploying (~1 min) 🎨', 'success');
       } else {
         showToast(`Error: ${json.error || 'Unknown error'}`, 'error');
       }
@@ -919,7 +921,15 @@ export default function AdminPage() {
                   />
                 </div>
                 <div>
-                  <Label>Icon Image (PNG/JPG/SVG)</Label>
+                  <Label>Icon URL <span className="text-slate-500 normal-case font-normal">(paste a direct image URL, or upload below)</span></Label>
+                  <Input
+                    value={editingTech.imageUrl}
+                    onChange={(v) => setEditingTech({ ...editingTech, imageUrl: v })}
+                    placeholder="https://... or /tech-icons/unity.png"
+                  />
+                </div>
+                <div>
+                  <Label>Upload Icon (PNG/JPG/SVG)</Label>
                   <div
                     onDragOver={(e) => { e.preventDefault(); setTechIconDragging(true); }}
                     onDragLeave={() => setTechIconDragging(false)}
