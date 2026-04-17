@@ -17,7 +17,7 @@ export default function Banner({ openToWork }: { openToWork: boolean }) {
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
                     </span>
                     <p className='text-white text-sm font-semibold text-center'>
-                        Open to Work — Available for Game Design &amp; UI/UX projects
+                        Open to Work
                     </p>
                 </div>
                 <button
