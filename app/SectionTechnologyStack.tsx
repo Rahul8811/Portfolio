@@ -61,15 +61,21 @@ export default function SectionTechnologyStack({ technologies }: Props) {
                                 ) : (
                                     <div className="w-[80px] h-[80px] rounded-2xl bg-gray flex items-center justify-center text-accent2 text-xs font-bold text-center p-2">{item.name}</div>
                                 )}
-                                <Link
-                                    href={{ pathname: item.officialSite, query: { utm_source: 'rahul.my.id', utm_medium: 'campaign', utm_campaign: 'portfolio' } }}
-                                    target="_blank"
-                                    title={`Figure out about ${item.name}`}
-                                >
+                                {item.officialSite?.trim() ? (
+                                    <Link
+                                        href={{ pathname: item.officialSite, query: { utm_source: 'rahul.my.id', utm_medium: 'campaign', utm_campaign: 'portfolio' } }}
+                                        target="_blank"
+                                        title={`Figure out about ${item.name}`}
+                                    >
+                                        <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full p-1 text-white transition-all duration-300 bg-opacity-50 opacity-0 gradient-bg hover:opacity-100 rounded-xl">
+                                            <p className='font-semibold text-center line-clamp-3'>{item.name}</p>
+                                        </div>
+                                    </Link>
+                                ) : (
                                     <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full p-1 text-white transition-all duration-300 bg-opacity-50 opacity-0 gradient-bg hover:opacity-100 rounded-xl">
                                         <p className='font-semibold text-center line-clamp-3'>{item.name}</p>
                                     </div>
-                                </Link>
+                                )}
                             </motion.div>
                         </div>
                     ))}
